@@ -3,6 +3,7 @@
 Geocoding with SF
 
 Summary
+
 This repository provides materials for a session that is part of the I2DS Tools for Data Science workshop run at the Hertie School, Berlin in November 2021. The student-run workshop is part of the course Introduction to Data Science taught by Simon Munzert at the Hertie School, Berlin, in Fall 2021.
 
 Session contents
@@ -13,7 +14,7 @@ Main learning objectives
 
 Instructors
 Andrew Wells
-Fernanda Candidod Gomes (website, twitter)
+Fernanda Candido Gomes (website, twitter)
 
 
 Further resources
