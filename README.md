@@ -18,8 +18,8 @@ This session will introduce you to geocoding and spatial analysis, focusing in h
 
 
 ## Further resources
-- [Geocomputation with R](https://geocompr.robinlovelace.net/))
-- [Applied Spatial Data Analysis with R](https://www.springer.com/gp/book/9781461476177))
+- [Geocomputation with R](https://geocompr.robinlovelace.net/)
+- [Applied Spatial Data Analysis with R](https://www.springer.com/gp/book/9781461476177)
 
 ## License
 The material in this repository is made available under the [MIT license](http://opensource.org/licenses/mit-license.php).
