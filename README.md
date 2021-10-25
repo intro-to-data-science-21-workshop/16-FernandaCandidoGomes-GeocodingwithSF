@@ -13,13 +13,13 @@ This session will introduce you to geocoding and spatial analysis, focusing in h
 - Visualization (ploting with SF)
 
 ## Instructors
-- Andrew Wells ([website] (https://github.com/andrewwells991))
-- Fernanda Candido Gomes ([website] (https://github.com/F-CGomes)) 
+- Andrew Wells ([website](https://github.com/andrewwells991))
+- Fernanda Candido Gomes ([website](https://github.com/F-CGomes)) 
 
 
 ## Further resources
-- Geocomputation with R ([link] (https://geocompr.robinlovelace.net/))
-- Applied Spatial Data Analysis with R ([link] (https://www.springer.com/gp/book/9781461476177))
+- Geocomputation with R ([link](https://geocompr.robinlovelace.net/))
+- Applied Spatial Data Analysis with R ([link](https://www.springer.com/gp/book/9781461476177))
 
 ## License
 The material in this repository is made available under the MIT license.
