@@ -25,6 +25,6 @@ This session will introduce you to geocoding and spatial analysis, focusing in h
 The material in this repository is made available under the [MIT license](http://opensource.org/licenses/mit-license.php).
 
 ## Statement of contributions
-**Andrew Wells** prepared the practice material and helped with the recording.
+**Andrew Wells** prepared the practice material and helped with the presentation slides and recording.
 
-**Fernanda Candido Gomes** prepared the presentation slides and recording. She also helped in the finalization of the practice material.
+**Fernanda Candido Gomes** prepared the presentation slides and recording. She also helped with the practice material.
