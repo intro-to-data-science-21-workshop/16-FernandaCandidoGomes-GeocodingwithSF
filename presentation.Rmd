@@ -1,0 +1,86 @@
+---
+title: "Geocoding with R"
+subtitle: "The SF package"
+author: "Andrew Wells & Fernanda Candido Gomes"
+institute: "Hertie School | I2DS Tools for Data Science workshop"
+output:
+  xaringan::moon_reader:
+    css: [default, metropolis, metropolis-fonts]
+     lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9'
+      hash: true
+---
+
+#Table of contents
+<br>
+
+1. *[What is the package good for?]* (#Introduction)
+
+2. *[How can we use it?]* (#Logic)
+
+3. *[Key Features]* (#Tools)
+
+4. *[Practical Application]* (#TutorialPreview)
+
+5. *[Learn More]* (#Sources)
+
+---
+class: inverse, center, middle
+name: Introduction
+
+#What is **geocoding**?
+
+---
+#What is **spatial analysis**?
+
+---
+# The **SF** package
+
+---
+class: inverse, center, middle
+name: Logic
+
+#Geometry basics
+
+* Simple Features
+* Shapefiles
+
+---
+class: inverse, center, middle
+name: Tools
+
+#Main functions
+
+st_read | st_as_sf
+--------|---------
+Use     | Use
+
+---
+class: inverse, center, middle
+name: TutorialPreview
+
+#Downloading and Visualizing geometric data
+
+```{r}
+# Save file as a .zip with link
+brazil_file <- "https://biogeo.ucdavis.edu/data/diva/adm/BRA_adm.zip"
+ 
+# Download .zip
+download.file(brazil_file, destfile = "BRA.zip")
+ 
+# Unzip the file
+unzip("BRA.zip")
+ 
+# Examine the file .zip file to find the shapefile
+list.files()
+ 
+# Save the shapefile as a dataframe
+brazil <- sf::read_sf("BRA_adm1.shp")
+
+brazil
+
+```
