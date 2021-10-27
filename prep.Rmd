@@ -1,0 +1,164 @@
+---
+title: "Geocoding with R"
+subtitle: "The SF package"
+author: "Andrew Wells & Fernanda Candido Gomes"
+institute: "Hertie School | [I2DS Tools for Data Science workshop](https://github.com/intro-to-data-science-21-workshop)"
+output:
+  xaringan::moon_reader:
+    css: [default, metropolis, metropolis-fonts]
+    lib_dir: slides
+    nature:
+      highlightStyle: github
+      highlightLines: TRUE
+      countIncrementalSlides: FALSE
+      ratio: '16:9'
+      hash: TRUE
+
+---
+
+```{r setup, include=FALSE}
+# figures formatting setup
+options(htmltools.dir.version = FALSE)
+library(knitr)
+opts_chunk$set(
+  prompt = T,
+  fig.align="center", #fig.width=6, fig.height=4.5, 
+  # out.width="748px", #out.length="520.75px",
+  dpi=300, #fig.path='Figs/',
+  cache=F, #echo=F, warning=F, message=F
+  engine.opts = list(bash = "-l")
+  )
+
+## Next hook based on this SO answer: https://stackoverflow.com/a/39025054
+knit_hooks$set(
+  prompt = function(before, options, envir) {
+    options(
+      prompt = if (options$engine %in% c('sh','bash')) '$ ' else 'R> ',
+      continue = if (options$engine %in% c('sh','bash')) '$ ' else '+ '
+      )
+})
+
+library(tidyverse)
+library(devtools)
+library(dplyr)
+library(sf)
+```
+
+# Table of contents
+
+<br>
+
+1. [What is the package good for?](#Introduction)
+
+2. [How can we use it?](#Logic)
+
+3. [Key Features](#Tools)
+
+4. [Practical Application](#TutorialPreview)
+
+5. [Learn More](#Sources)
+
+---
+class: inverse, center, middle
+name: Introduction
+
+# Introduction: Geocoding, SF and spatial analysis
+
+<html><div style='float:left'></div><hr color='#EB811B' size=1px style="width:1000px; margin:auto;"/></html>
+
+---
+#What is **geocoding**? `r emo::ji("globe")`
+<br>
+
+Process of *taking an address or a name of a place and turning it into a geographic position on the earth’s surface.*
+
+<div align="center">
+<img src="pptimages/geocode.png" height=340>
+</div>
+
+`r emo::ji ("mark")` Input Data: Relative or Absolute
+
+
+`r emo::ji("search")` Coordinate System: Longitude and Latitude
+
+---
+#Why do **spatial analysis**? `r emo::ji("map")`
+
+*The performance of analytic tasks that explicitly incorporate the spatial properties of a dataset.*
+
+
+---
+#The **SF** package
+
+---
+class: inverse, center, middle
+name: Logic
+
+#Geometry basics
+
+* Simple Features
+* Shapefiles
+
+---
+class: inverse, center, middle
+name: Tools
+
+#Main functions
+
+st_read | st_as_sf
+--------|---------
+Use     | Use
+
+
+----
+#Other needed packages
+
+
+---
+class: inverse, center, middle
+name: TutorialPreview
+
+#Downloading and Visualizing geometric data
+
+*Shapefiles*
+
+```{r}
+# Save file as a .zip with link
+brazil_file <- "https://biogeo.ucdavis.edu/data/diva/adm/BRA_adm.zip"
+ 
+# Download .zip
+download.file(brazil_file, destfile = "BRA.zip")
+ 
+# Unzip the file
+unzip("BRA.zip")
+ 
+# Examine the file .zip file (list()) to find the shapefile and then save the shapefile as a dataframe
+brazil <- sf::read_sf("BRA_adm1.shp")
+```
+
+---
+```{r}
+brazil %>%
+  dplyr::select(geometry) %>%
+  knitr::kable(col.names = c("Geometry")) %>%
+  kableExtra::kable_minimal() %>%
+  head(5)
+```
+---
+*Geocoding using LAT/LONG*
+```{r}
+coordinates_br <- readr::read_csv("br.csv")
+
+sf::st_crs(brazil) #check the CRS code
+
+coord_geo <- coordinates_br %>%
+  sf::st_as_sf(coords = c("lng", "lat"), crs = 4326)
+
+ggplot2::ggplot() +
+  geom_sf(data = brazil) +
+  geom_sf(data = coord_geo %>%
+            dplyr::filter(!is.na(capital)), color = "green") +
+   geom_sf_label(data = coord_geo %>%
+                dplyr::filter(population_proper >= 1500000 & population_proper <= 7000000),
+                aes(label = city),  size = 3, hjust = 0, color = "red")
+```

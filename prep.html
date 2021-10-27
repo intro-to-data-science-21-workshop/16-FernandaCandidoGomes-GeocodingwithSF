@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Geocoding with R</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Andrew Wells &amp; Fernanda Candido Gomes" />
+    <script src="slides/header-attrs/header-attrs.js"></script>
+    <link href="slides/remark-css/default.css" rel="stylesheet" />
+    <link href="slides/remark-css/metropolis.css" rel="stylesheet" />
+    <link href="slides/remark-css/metropolis-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Geocoding with R
+## The SF package
+### Andrew Wells &amp; Fernanda Candido Gomes
+### Hertie School | <a href="https://github.com/intro-to-data-science-21-workshop">I2DS Tools for Data Science workshop</a>
+
+---
+
+
+
+
+# Table of contents
+
+&lt;br&gt;
+
+1. [What is the package good for?](#Introduction)
+
+2. [How can we use it?](#Logic)
+
+3. [Key Features](#Tools)
+
+4. [Practical Application](#TutorialPreview)
+
+5. [Learn More](#Sources)
+
+---
+class: inverse, center, middle
+name: Introduction
+
+# Introduction: Geocoding, SF and spatial analysis
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px style="width:1000px; margin:auto;"/&gt;&lt;/html&gt;
+
+---
+#What is **geocoding**? 🌎
+&lt;br&gt;
+
+Process of *taking an address or a name of a place and turning it into a geographic position on the earth’s surface.*
+
+&lt;div align="center"&gt;
+&lt;img src="pptimages/geocode.png" height=340&gt;
+&lt;/div&gt;
+
+❎ Input Data: Relative or Absolute
+
+
+🔍 Coordinate System: Longitude and Latitude
+
+---
+#Why do **spatial analysis**? 🗾
+
+*The performance of analytic tasks that explicitly incorporate the spatial properties of a dataset.*
+
+
+---
+#The **SF** package
+
+---
+class: inverse, center, middle
+name: Logic
+
+#Geometry basics
+
+* Simple Features
+* Shapefiles
+
+---
+class: inverse, center, middle
+name: Tools
+
+#Main functions
+
+st_read | st_as_sf
+--------|---------
+Use     | Use
+
+
+----
+#Other needed packages
+
+
+---
+class: inverse, center, middle
+name: TutorialPreview
+
+#Downloading and Visualizing geometric data
+
+*Shapefiles*
+
+
+```r
+R&gt; # Save file as a .zip with link
+R&gt; brazil_file &lt;- "https://biogeo.ucdavis.edu/data/diva/adm/BRA_adm.zip"
+R&gt;  
+R&gt; # Download .zip
+R&gt; download.file(brazil_file, destfile = "BRA.zip")
+R&gt;  
+R&gt; # Unzip the file
+R&gt; unzip("BRA.zip")
+R&gt;  
+R&gt; # Examine the file .zip file (list()) to find the shapefile and then save the shapefile as a dataframe
+R&gt; brazil &lt;- sf::read_sf("BRA_adm1.shp")
+```
+
+---
+
+```r
+R&gt; brazil %&gt;%
++   dplyr::select(geometry) %&gt;%
++   knitr::kable(col.names = c("Geometry")) %&gt;%
++   kableExtra::kable_minimal() %&gt;%
++   head(5)
+```
+
+```
+## [1] "&lt;table class=\" lightable-minimal\" style='font-family: \"Trebuchet MS\", verdana, sans-serif; margin-left: auto; margin-right: auto;'&gt;\n &lt;thead&gt;\n  &lt;tr&gt;\n   &lt;th style=\"text-align:left;\"&gt; Geometry &lt;/th&gt;\n  &lt;/tr&gt;\n &lt;/thead&gt;\n&lt;tbody&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-73.33251 -... &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-35.90153 -... &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-50.02403 0... &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-67.32623 2... &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-38.69708 -... &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-38.47542 -... &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-48.03603 -... &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-40.88403 -... &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-50.15817 -... &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-42.12375 -... &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-56.10364 -... &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-57.60524 -... &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-44.20978 -... &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-46.43458 -... &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-42.87874 -... &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-48.6307 -2... &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-35.13597 -... &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-41.81681 -... &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-44.67125 -... &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-35.10903 -... &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-52.07069 -... &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-63.5347 -7... &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-60.16886 5... &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-48.08236 -... &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-48.75514 -... &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-37.38458 -... &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-48.3531 -5... &lt;/td&gt;\n  &lt;/tr&gt;\n&lt;/tbody&gt;\n&lt;/table&gt;"
+```
+---
+*Geocoding using LAT/LONG*
+
+```r
+R&gt; coordinates_br &lt;- readr::read_csv("br.csv")
+```
+
+```
+## Rows: 110 Columns: 9
+```
+
+```
+## -- Column specification --------------------------------------------------------
+## Delimiter: ","
+## chr (5): city, country, iso2, admin_name, capital
+## dbl (4): lat, lng, population, population_proper
+```
+
+```
+## 
+## i Use `spec()` to retrieve the full column specification for this data.
+## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
+```
+
+```r
+R&gt; sf::st_crs(brazil) #check the CRS code
+```
+
+```
+## Coordinate Reference System:
+##   User input: WGS 84 
+##   wkt:
+## GEOGCRS["WGS 84",
+##     DATUM["World Geodetic System 1984",
+##         ELLIPSOID["WGS 84",6378137,298.257223563,
+##             LENGTHUNIT["metre",1]]],
+##     PRIMEM["Greenwich",0,
+##         ANGLEUNIT["degree",0.0174532925199433]],
+##     CS[ellipsoidal,2],
+##         AXIS["latitude",north,
+##             ORDER[1],
+##             ANGLEUNIT["degree",0.0174532925199433]],
+##         AXIS["longitude",east,
+##             ORDER[2],
+##             ANGLEUNIT["degree",0.0174532925199433]],
+##     ID["EPSG",4326]]
+```
+
+```r
+R&gt; coord_geo &lt;- coordinates_br %&gt;%
++   sf::st_as_sf(coords = c("lng", "lat"), crs = 4326)
+R&gt; 
+R&gt; ggplot2::ggplot() +
++   geom_sf(data = brazil) +
++   geom_sf(data = coord_geo %&gt;%
++             dplyr::filter(!is.na(capital)), color = "green") +
++    geom_sf_label(data = coord_geo %&gt;%
++                 dplyr::filter(population_proper &gt;= 1500000 &amp; population_proper &lt;= 7000000),
++                 aes(label = city),  size = 3, hjust = 0, color = "red")
+```
+
+```
+## Warning in st_point_on_surface.sfc(sf::st_zm(x)): st_point_on_surface may not
+## give correct results for longitude/latitude data
+```
+
+&lt;img src="prep_files/figure-html/unnamed-chunk-3-1.png" style="display: block; margin: auto;" /&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"hash": true
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
