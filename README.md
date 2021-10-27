@@ -8,7 +8,7 @@ This repository provides materials for a session that is part of the [I2DS Tools
 This session will introduce you to geocoding and spatial analysis, focusing in how to do them in R using the sf package.
 
 ## Main learning objectives
-- Geocomputation basics (simple features and shapefiles)
+- Geospatial basics (simple features and shapefiles)
 - SF package utility (main functions: st_read, st_as_sf)
 - Visualization (ploting with SF)
 
@@ -25,6 +25,6 @@ This session will introduce you to geocoding and spatial analysis, focusing in h
 The material in this repository is made available under the [MIT license](http://opensource.org/licenses/mit-license.php).
 
 ## Statement of contributions
-**Andrew Wells** prepared the practice material and helped with the recording.
+**Andrew Wells** prepared the practice material and helped with the presentation slides and recording.
 
-**Fernanda Candido Gomes** prepared the presentation slides and recording. She also helped in the finalization of the practice material.
+**Fernanda Candido Gomes** prepared the presentation slides and recording. She also helped with the practice material.
