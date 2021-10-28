@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Geocoding with R</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Andrew Wells &amp; Fernanda Candido Gomes" />
+    <script src="slides/header-attrs/header-attrs.js"></script>
+    <link href="slides/remark-css/default.css" rel="stylesheet" />
+    <link href="slides/remark-css/metropolis.css" rel="stylesheet" />
+    <link href="slides/remark-css/metropolis-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Geocoding with R
+## The SF package
+### Andrew Wells &amp; Fernanda Candido Gomes
+### Hertie School | <a href="https://github.com/intro-to-data-science-21-workshop">I2DS Tools for Data Science workshop</a>
+
+---
+
+
+
+
+# Table of contents
+
+&lt;br&gt;
+
+1. [What is the package good for?](#Introduction)
+
+2. [How can we use it?](#Logic)
+
+3. [Key Features](#Tools)
+
+4. [Practical Application](#TutorialPreview)
+
+5. [Learn More](#Sources)
+
+---
+class: inverse, center, middle
+name: Introduction
+
+# What is the package good for?
+&lt;br&gt;
+### Geocoding, spatial analysis and SF
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px style="width:1000px; margin:auto;"/&gt;&lt;/html&gt;
+
+---
+#What is **geocoding**? 🌏 📍
+&lt;br&gt;
+
+Process of *taking an address or a name of a place and turning it into a geographic position on the earth’s surface.*
+
+&lt;div align="center"&gt;
+&lt;img src="pptimages/geocode.png" height=340&gt;
+&lt;/div&gt;
+
+✅ Input Data: Relative or Absolute
+&lt;br&gt;
+&lt;br&gt;
+🔎 Coordinate System: Longitude and Latitude
+
+---
+#Why do **spatial analysis**? 🗺
+
+.pull-left[
+*The performance of analytic tasks that explicitly incorporate the spatial properties of a dataset.*
+&lt;div align="center"&gt;
+&lt;img src="pptimages/article.png" height=400&gt;
+&lt;/div&gt;
+]
+
+.pull-right[
+**Relevance for Public Policies**
+- public health, such as the pandemic evolution
+- security, such as crime trends
+&lt;br&gt;
+&lt;div align="center"&gt;
+&lt;img src="pptimages/Andrew_example.png" height=135&gt;
+&lt;img src="pptimages/Andrew_example1.png" height=135&gt;
+&lt;img src="pptimages/Andrew_example2.png" height=135&gt;
+&lt;/div&gt;
+&lt;br&gt;
+In its best form, allows people to easily understand complex geographical information: *Adding more information conveys and increasingly rich and informative story*
+]
+
+---
+#The **SF** package 👩‍💻👨‍💻👩‍💻
+
+.pull-left[
+- Geographic information science has been performed in a geographic information system (“GIS”) - integrated software platform for the management, processing, analysis, and visualization of geographic data
+
+- R packages exist for handling these tasks, allowing R to function as a capable substitute
+&lt;br&gt;
+&lt;div align="center"&gt;
+&lt;img src="pptimages/sf_package.png" height=350&gt;
+&lt;/div&gt;
+]
+
+.pull-right[
+&lt;br&gt;
+&lt;div align="center"&gt;
+&lt;img src="pptimages/packages_growth.jpg" height= 270&gt;
+&lt;/div&gt;
+- The next-generation alternative to sp for spatial data analysis in R &lt;br&gt;
+- Advantages: &lt;br&gt;
+  * sf objects can be treated as data frames in most operations
+  &lt;br&gt;
+  * sf function names are relatively consistent and intuitive
+  &lt;br&gt;
+  * sf functions can be combined using %&gt;% operator
+&lt;br&gt;
+&lt;div align="center"&gt;
+👎 integrates seamlessly with *tidyverse tools* 👎
+&lt;/div&gt;
+]
+---
+class: inverse, center, middle
+name: Logic
+
+# How can we use it??
+&lt;br&gt;
+###Geometry basics
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px style="width:1000px; margin:auto;"/&gt;&lt;/html&gt;
+
+---
+.pull-left[
+###Simple features
+&lt;br&gt;
+thing or a object, which have "a **geometry** describing where on Earth is located (*spatial attribute*), and other attributes, which describe other properties (non-spatial attributes)"
+&lt;br&gt;
+- Dimensions or coordinates: X and Y (longitude and latitude), Z (altitude) and M 
+(denotes some associated measure, such as time of measurement)
+&lt;br&gt;
+]
+
+
+.pull-right[
+- Geometry types
+&lt;div align="center"&gt;
+&lt;img src="pptimages/table_geometry.png" height= 350&gt;
+&lt;/div&gt;
+&lt;div align="center"&gt;
+&lt;img src="pptimages/sf-classes.png" height= 350&gt;
+&lt;/div&gt;
+&lt;br&gt;
+###Shape files
+- The way as *geographic information* is normally shared
+- zip file with a **.shp**, which stores the geographic coordinates of the geographic features (e.g. country, state, county)
+]
+
+---
+class: inverse, center, middle
+name: Tools
+
+# Key Features
+&lt;br&gt;
+###Tools
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px style="width:1000px; margin:auto;"/&gt;&lt;/html&gt;
+
+---
+&lt;div align="center"&gt;
+*SF*: reading, writing, handling, and manipulating simple features in R
+&lt;/div&gt;
+&lt;div align="center"&gt;
+&lt;img src="pptimages/sf-functions.png" height= 450&gt;
+&lt;/div&gt;
+&lt;br&gt;
+
+| st_read  |  st_as_sf |
+|---|---|
+| imports a spatial data file and converts &lt;br&gt; it to a simple feature *data frame* | *convert* foreign object to an sf object|
+|
+
+---
+class: inverse, center, middle
+name: TutorialPreview
+
+# Pratical Application
+&lt;br&gt;
+###Tutorial Preview
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px style="width:1000px; margin:auto;"/&gt;&lt;/html&gt;
+
+---
+#How to?
+
+### Downloading and Visualizing geometric data
+
+```r
+R&gt; # Save file as a .zip with link
+R&gt; brazil_file &lt;- "https://biogeo.ucdavis.edu/data/diva/adm/BRA_adm.zip"
+R&gt;  
+R&gt; # Download .zip
+R&gt; download.file(brazil_file, destfile = "BRA.zip")
+R&gt;  
+R&gt; # Unzip the file
+R&gt; unzip("BRA.zip")
+R&gt;  
+R&gt; # Examine the file .zip file (list()) to find the shapefile and then save the shapefile as a dataframe
+R&gt; brazil &lt;- sf::read_sf("BRA_adm1.shp")
+```
+---
+
+###The Geometry column
+
+
+```r
+R&gt; brazil %&gt;%
++   dplyr::select(geometry) %&gt;%
++   knitr::kable(col.names = c("Geometry")) %&gt;%
++   kableExtra::kable_minimal() %&gt;%
++   head(10)
+```
+
+```
+## [1] "&lt;table class=\" lightable-minimal\" style='font-family: \"Trebuchet MS\", verdana, sans-serif; margin-left: auto; margin-right: auto;'&gt;\n &lt;thead&gt;\n  &lt;tr&gt;\n   &lt;th style=\"text-align:left;\"&gt; Geometry &lt;/th&gt;\n  &lt;/tr&gt;\n &lt;/thead&gt;\n&lt;tbody&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-73.33251 -... &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-35.90153 -... &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-50.02403 0... &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-67.32623 2... &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-38.69708 -... &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-38.47542 -... &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-48.03603 -... &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-40.88403 -... &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-50.15817 -... &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-42.12375 -... &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-56.10364 -... &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-57.60524 -... &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-44.20978 -... &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-46.43458 -... &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-42.87874 -... &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-48.6307 -2... &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-35.13597 -... &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-41.81681 -... &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-44.67125 -... &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-35.10903 -... &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-52.07069 -... &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-63.5347 -7... &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-60.16886 5... &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-48.08236 -... &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-48.75514 -... &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-37.38458 -... &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; MULTIPOLYGON (((-48.3531 -5... &lt;/td&gt;\n  &lt;/tr&gt;\n&lt;/tbody&gt;\n&lt;/table&gt;"
+```
+
+---
+##But if I don't have a geometry column?
+- Longitude and Latitude
+
+
+```r
+R&gt; coordinates_br &lt;- readr::read_csv("br.csv")
+```
+
+```
+## Rows: 110 Columns: 9
+```
+
+```
+## -- Column specification --------------------------------------------------------
+## Delimiter: ","
+## chr (5): city, country, iso2, admin_name, capital
+## dbl (4): lat, lng, population, population_proper
+```
+
+```
+## 
+## i Use `spec()` to retrieve the full column specification for this data.
+## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
+```
+
+You will need to check the CRS code
+
+```r
+R&gt; sf::st_crs(brazil)
+```
+
+```
+## Coordinate Reference System:
+##   User input: WGS 84 
+##   wkt:
+## GEOGCRS["WGS 84",
+##     DATUM["World Geodetic System 1984",
+##         ELLIPSOID["WGS 84",6378137,298.257223563,
+##             LENGTHUNIT["metre",1]]],
+##     PRIMEM["Greenwich",0,
+##         ANGLEUNIT["degree",0.0174532925199433]],
+##     CS[ellipsoidal,2],
+##         AXIS["latitude",north,
+##             ORDER[1],
+##             ANGLEUNIT["degree",0.0174532925199433]],
+##         AXIS["longitude",east,
+##             ORDER[2],
+##             ANGLEUNIT["degree",0.0174532925199433]],
+##     ID["EPSG",4326]]
+```
+
+Then, conversion
+
+```r
+R&gt; coord_geo &lt;- coordinates_br %&gt;%
++   sf::st_as_sf(coords = c("lng", "lat"), crs = 4326)
+R&gt; 
+R&gt; coord_geo %&gt;%
++   dplyr::select(geometry) %&gt;%
++   knitr::kable(col.names = c("Geometry")) %&gt;%
++   kableExtra::kable_minimal() %&gt;%
++   head(10)
+```
+
+```
+## [1] "&lt;table class=\" lightable-minimal\" style='font-family: \"Trebuchet MS\", verdana, sans-serif; margin-left: auto; margin-right: auto;'&gt;\n &lt;thead&gt;\n  &lt;tr&gt;\n   &lt;th style=\"text-align:left;\"&gt; Geometry &lt;/th&gt;\n  &lt;/tr&gt;\n &lt;/thead&gt;\n&lt;tbody&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-46.6339 -23.5504) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-43.1964 -22.9083) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-43.9419 -19.9281) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-47.8828 -15.7939) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-38.5108 -12.9708) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-38.5275 -3.7275) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-49.2719 -25.4297) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-60.0167 -3.1) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-34.8808 -8.0539) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-48.5039 -1.4558) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-51.23 -30.0328) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-49.2564 -16.6806) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-46.5333 -23.4667) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-51.2167 3.2167) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-47.0573 -22.9009) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-43.0539 -22.8269) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-44.3028 -2.53) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-35.735 -9.6658) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-60.2699 -6.9838) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-54.6222 -20.4686) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-35.2089 -5.795) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-42.8042 -5.0949) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-43.47 -22.74) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-46.565 -23.6939) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-34.88 -7.12) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-45.4522 -19.1583) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-46.5333 -23.6572) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-35.0014 -8.1803) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-48.2769 -18.9189) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-46.7919 -23.5328) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-45.8869 -23.1789) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-37.0717 -10.9111) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-47.8067 -21.1783) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-44.0539 -19.9319) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-47.4578 -23.5019) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-56.0969 -15.5958) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-38.9669 -12.2669) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-48.8458 -26.3039) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-51.1628 -23.31) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-48.3719 -1.3658) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-51.1789 -29.1678) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-43.1036 -22.8833) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-40.3078 -20.1289) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-47.3314 -22.7392) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-48.553 -27.5933) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-51.0653 0.033) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-40.2936 -20.3364) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-43.3503 -21.7642) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-46.4608 -23.6678) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-44.1978 -19.9678) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-49.3789 -20.82) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-46.3339 -23.9608) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-51.9389 -23.425) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-63.9039 -8.7619) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-46.1931 -23.5228) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-43.8636 -16.7322) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-67.8117 -9.9781) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-46.6228 -23.6858) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-35.8811 -7.2306) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-46.8842 -23.1864) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-46.8358 -23.5228) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-34.855 -8.0089) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-41.3304 -21.7523) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-40.42 -20.2639) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-49.0606 -22.3147) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-48.9528 -16.3269) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-40.3378 -20.3189) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-46.3922 -23.9633) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-50.1619 -25.095) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-46.3486 -23.4864) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-51.18 -29.92) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-35.9758 -8.2828) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-52.3428 -31.7719) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-47.6489 -22.725) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-47.4008 -20.5389) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-40.5078 -9.3928) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-47.9319 -19.7478) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-44.0869 -19.7669) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-49.2058 -25.535) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-60.6719 2.82) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-38.6558 -3.7328) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-46.2564 -23.9936) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-49.0658 -26.9189) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-40.8394 -14.8661) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-45.55 -23.0333) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-37.3439 -5.1878) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-34.8728 -7.9408) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-46.4028 -24.0058) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-43.1789 -22.505) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-47.4017 -22.5647) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-38.3239 -12.6978) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-46.3108 -23.5428) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-53.8069 -29.6839) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-49.1178 -5.3689) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-41.9489 -18.8508) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-39.315 -7.2128) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-39.4094 -7.2342) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-63.04 -7.4639) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-48.3603 -10.2128) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-46.7528 -23.6019) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-35.2628 -5.9158) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-47.2669 -22.8219) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-42.5369 -19.4678) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-44.1042 -22.5231) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-46.8764 -23.5111) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-47.4758 -5.5258) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-54.5875 -25.54) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-53.4553 -24.9558) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-51.0228 -30.0808) &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;\"&gt; POINT (-50.9939 -29.9433) &lt;/td&gt;\n  &lt;/tr&gt;\n&lt;/tbody&gt;\n&lt;/table&gt;"
+```
+---
+.pull-left[
+#What about when I don't have longitude and latitude?
+🌏**geocoding**
+&lt;br&gt;
+&lt;br&gt;
+#And what about spatial analysis?
+
+```r
+R&gt; brplot &lt;- ggplot2::ggplot() +
++   geom_sf(data = brazil) +
++   geom_sf(data = coord_geo %&gt;%
++             dplyr::filter(!is.na(capital)), color = "aquamarine") +
++    geom_sf_label(data = coord_geo %&gt;%
++                 dplyr::filter(population_proper &gt;= 1500000 &amp; population_proper &lt;= 7000000),
++                 aes(label = city),  size = 3, hjust = 0, color = "aquamarine4")
+```
+]
+.pull-right[
+
+```r
+R&gt; brplot
+```
+
+```
+## Warning in st_point_on_surface.sfc(sf::st_zm(x)): st_point_on_surface may not
+## give correct results for longitude/latitude data
+```
+
+&lt;img src="Video_Pres_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" /&gt;
+]
+class: inverse, center, middle
+name: Sources
+
+# Learn More
+&lt;br&gt;
+### Sources
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px style="width:1000px; margin:auto;"/&gt;&lt;/html&gt;
+
+---
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"hash": true
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

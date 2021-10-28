@@ -1,0 +1,207 @@
+---
+title: "Geocoding with R"
+subtitle: "The SF package"
+author: "Andrew Wells & Fernanda Candido Gomes"
+institute: "Hertie School | [I2DS Tools for Data Science workshop](https://github.com/intro-to-data-science-21-workshop)"
+date: "04th November 2021"
+output: 
+  html_document:
+    toc: TRUE
+    number_sections: FALSE
+    highlight: tango
+    theme: lumen
+    toc_depth: 2
+    toc_float:
+      collapsed: false 
+---
+
+```{r setup, include=FALSE}
+library(pacman)
+pacman::p_load(sf, leaflets, readxl,
+               dplyr, qtm, ggplot2, rvest, tidyverse, raster, tmap, tmaptools)
+#raster is for mac
+
+options(scipen = 999)
+```
+
+## Mapping
+
+Let's make our first country map in R.
+As Fernanda said, in the video, we can download the shapefile (.shp) as a .zip file from the Internet
+
+```{r pressure, echo=FALSE}
+# Go to http://diva-gis.org/gdata and pick a country. 
+
+country_file <- " " #Once you've picked a country, click "OK" then right click on the "Download button to "Copy Link", paste the hyperlink in the parentheses. 
+
+# Download .zip
+download.file(country_file, destfile = "COUNTRY.zip")
+
+# Unzip the file
+unzip("COUNTRY.zip")
+
+# Examine the file .zip file to find the shapefile
+list.files()
+
+# Save the shapefile as a dataframe
+country <- sf::read_sf(" ") #Find the .shp file (look for ~adm1.shp for Diva GIS files) and use the read_sf() function to convert the spacial data into a dataframe. 
+
+country
+
+# Plot the map with population using ggplot
+ggplot(country) + geom_sf() + theme_minimal()
+```
+
+## Finding coordinates from addresses
+
+UNHCR Germany - Zimmerstrasse 80, Berlin, Germany
+UNHCR Germany/Federal Office for Migrantion and Refugees - Frankenstrasse 210, Nurnberg, Germany
+French Office of Immigration and Integration - 83 Rue de Patay, Paris, France
+French Office of Immigration and Integration - 4 Rue Gustave Doré, Strasbourg, France
+Belgium Immigration Office - Pachéco 44, Brussels, Belgium
+Port of Antwerp Schengen Immigration Office - Kauwenstein 8, Antwerpen, Belgium
+CARE - Switzerland - Chemin de Balexert 7, Geneva, Switzerland
+CARE UK - 89 Albert Embankment, London, United Kingdom
+Danish Refugee Council - Borgergade 10, København, Denmark
+European Asylum Support Office - Valletta, Malta
+
+```{r pressure, echo=FALSE}
+addresses <- c("Zimmerstrasse 80, Berlin, Germany",
+               "Frankenstrasse 210, Nurnberg, Germany",
+               "83 Rue de Patay, Paris, France",
+               "4 Rue Gustave Doré, Strasbourg, France",
+               "Pachéco 44, Brussels, Belgium",
+               "Kauwenstein 8, Antwerpen, Belgium",
+               "Chemin de Balexert 7, Geneva, Switzerland",
+               "89 Albert Embankment, London, United Kingdom",
+               "Borgergade 10, København, Denmark",
+               "Valletta, Malta") 
+
+geocoded_addresses <- geocode_OSM(addresses)
+
+geocoded_addresses
+```
+
+## Setting up the geo-points
+
+Use the st_as_sf() function
+
+```{r pressure, echo=FALSE}
+point_geo <- st_as_sf(geocoded_addresses,
+                      coords = c(x = "lon", y = "lat"),
+                      crs = 4326)
+point_geo
+```
+
+## Downloading a map of the world
+diva-gis.org is great for individual countries, but does not have a files for more than one country. For this, let's go to Natural Earth (naturalearthdata.com). 
+
+Click on the 1:50m Cultural Vectors. Right click on the "Download countries" button and copy the link. 
+
+```{r pressure, echo=FALSE}
+
+world_file <- "https://www.naturalearthdata.com/http//www.naturalearthdata.com/download/50m/cultural/ne_50m_admin_0_countries.zip" 
+
+# Download .zip
+download.file(world_file, destfile = "WORLD.zip")
+
+# Unzip the file
+unzip("WORLD.zip")
+
+# Examine the file .zip file to find the shapefile
+list.files()
+
+# Save the shapefile as a dataframe
+world <- sf::read_sf("ne_50m_admin_0_countries.shp") #Look for the .shp
+world
+```
+
+
+## Make a quick map of the world
+
+```{r pressure, echo=FALSE}
+ggplot(world) + geom_sf() + theme_minimal()
+```
+
+
+## Joining dataframes
+
+Use the st_join() function
+
+```{r pressure, echo=FALSE}
+st_join(point_geo, world, join = st_within)
+```
+
+## Map it all together!
+
+
+```{r pressure, echo=FALSE}
+tm_shape(world) +
+  tm_fill() +
+  tm_shape (point_geo) +
+  tm_bubbles(col = "red", size = 0.01)
+```
+
+## Making a better map
+
+
+```{r pressure, echo=FALSE}
+tmap_mode("view")
+
+tmap_last()
+```
+
+## Calculate the distance
+
+Use the st_distance() function to find the distances between points.
+
+```{r pressure, echo=FALSE}
+dist <- st_distance(point_geo)
+dist_km <- dist/1000
+dist_km
+```
+
+
+## Save the map
+
+Saving the map is easy using the tmap_save() function.
+
+```{r pressure, echo=FALSE}
+tmap_mode("view")
+
+immigration_services <-  tmap_last()
+
+tmap_save(immigration_services, "immigration_services.html")
+```
+
+## Bonus !!
+
+Let's plot the points on a map of Europe. 
+But also overlaying this with spatial information on the uptake of asylum seekers per country in 2015.
+
+```{r pressure, echo=FALSE}
+euro_ref <- read_excel("~/Downloads/euro_ref.xlsx")
+
+euro_ref <- euro_ref %>% 
+  dplyr::mutate(SOVEREIGNT_2 = state) %>%
+  dplyr::select(4, 1, 2, 3)
+
+world_2 <- world %>%
+  dplyr::mutate(SOVEREIGNT_2 = SOVEREIGNT)
+
+combined_ref <- left_join(x = world_2, 
+                               y = euro_ref, 
+                               by = "SOVEREIGNT")
+
+euro_ref_map <- combined_ref %>%
+  filter(!is.na(combined_ref$state))
+  
+tm_shape(euro_ref_map)+
+  tm_polygons("num_ref", id = "state", palette = "Greens") +
+    tm_shape (point_geo) +
+  tm_bubbles(col = "red", size = 0.001)
+
+# Make sure to save !
+european_ref <-  tmap_last()
+tmap_save(european_ref, "european_ref.html")
+```
