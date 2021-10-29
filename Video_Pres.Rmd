@@ -42,6 +42,8 @@ library(tidyverse)
 library(devtools)
 library(dplyr)
 library(sf)
+library(knitr)
+library(kableExtra)
 ```
 
 # Table of contents
@@ -64,7 +66,7 @@ name: Introduction
 
 # What is the package good for?
 <br>
-### Geocoding, spatial analysis and SF
+Geocoding, spatial analysis and SF
 
 <html><div style='float:left'></div><hr color='#EB811B' size=1px style="width:1000px; margin:auto;"/></html>
 
@@ -87,7 +89,10 @@ Process of *taking an address or a name of a place and turning it into a geograp
 #Why do **spatial analysis**? `r emo::ji("map")`
 
 .pull-left[
+<center>
 *The performance of analytic tasks that explicitly incorporate the spatial properties of a dataset.*
+</center>
+<br>
 <div align="center">
 <img src="pptimages/article.png" height=400>
 </div>
@@ -96,12 +101,13 @@ Process of *taking an address or a name of a place and turning it into a geograp
 .pull-right[
 **Relevance for Public Policies**
 - public health, such as the pandemic evolution
+<br>
 - security, such as crime trends
 <br>
 <div align="center">
-<img src="pptimages/Andrew_example.png" height=135>
-<img src="pptimages/Andrew_example1.png" height=135>
-<img src="pptimages/Andrew_example2.png" height=135>
+<img src="pptimages/Andrew_example.png" height=140>
+<img src="pptimages/Andrew_example1.png" height=140>
+<img src="pptimages/Andrew_example2.png" height=140>
 </div>
 <br>
 In its best form, allows people to easily understand complex geographical information: *Adding more information conveys and increasingly rich and informative story*
@@ -111,19 +117,19 @@ In its best form, allows people to easily understand complex geographical inform
 #The **SF** package `r emo::ji("coder")``r emo::ji("coder")``r emo::ji("coder")`
 
 .pull-left[
-- Geographic information science has been performed in a geographic information system (“GIS”) - integrated software platform for the management, processing, analysis, and visualization of geographic data
+- Geographic information science has been performed in a geographic information system (“GIS”), which is an integrated software platform for the management, processing, analysis, and visualization of geographic data
 
 - R packages exist for handling these tasks, allowing R to function as a capable substitute
 <br>
 <div align="center">
-<img src="pptimages/sf_package.png" height=350>
+<img src="pptimages/sf_package.jpg" height=300>
 </div>
 ]
 
 .pull-right[
 <br>
 <div align="center">
-<img src="pptimages/packages_growth.jpg" height= 270>
+<img src="pptimages/packages_growth.png" height= 200>
 </div>
 - The next-generation alternative to sp for spatial data analysis in R <br>
 - Advantages: <br>
@@ -132,18 +138,17 @@ In its best form, allows people to easily understand complex geographical inform
   * sf function names are relatively consistent and intuitive
   <br>
   * sf functions can be combined using %>% operator
+  * `r emo::ji("thumb")` integrates seamlessly with **tidyverse tools** `r emo::ji("thumb")`
 <br>
-<div align="center">
-`r emo::ji("thumb")` integrates seamlessly with *tidyverse tools* `r emo::ji("thumb")`
-</div>
 ]
+
 ---
 class: inverse, center, middle
 name: Logic
 
 # How can we use it??
 <br>
-###Geometry basics
+Geometry basics
 
 <html><div style='float:left'></div><hr color='#EB811B' size=1px style="width:1000px; margin:auto;"/></html>
 
@@ -156,18 +161,17 @@ thing or a object, which have "a **geometry** describing where on Earth is locat
 - Dimensions or coordinates: X and Y (longitude and latitude), Z (altitude) and M 
 (denotes some associated measure, such as time of measurement)
 <br>
+<div align="center">
+<img src="pptimages/sf-classes.png" height= 250>
+</div>
 ]
 
 
 .pull-right[
 - Geometry types
 <div align="center">
-<img src="pptimages/table_geometry.png" height= 350>
+<img src="pptimages/table_geometry.png" height= 300>
 </div>
-<div align="center">
-<img src="pptimages/sf-classes.png" height= 350>
-</div>
-<br>
 ###Shape files
 - The way as *geographic information* is normally shared
 - zip file with a **.shp**, which stores the geographic coordinates of the geographic features (e.g. country, state, county)
@@ -179,23 +183,21 @@ name: Tools
 
 # Key Features
 <br>
-###Tools
+Tools
 
 <html><div style='float:left'></div><hr color='#EB811B' size=1px style="width:1000px; margin:auto;"/></html>
 
 ---
-<div align="center">
-*SF*: reading, writing, handling, and manipulating simple features in R
-</div>
-<div align="center">
-<img src="pptimages/sf-functions.png" height= 450>
-</div>
-<br>
+#*SF*: reading, writing, handling, and manipulating simple features in R
 
 | st_read  |  st_as_sf |
 |---|---|
 | imports a spatial data file and converts <br> it to a simple feature *data frame* | *convert* foreign object to an sf object|
 |
+<br>
+<div align="center">
+<img src="pptimages/sf_functions.png" height= 300>
+</div>
 
 ---
 class: inverse, center, middle
@@ -203,7 +205,7 @@ name: TutorialPreview
 
 # Pratical Application
 <br>
-###Tutorial Preview
+Tutorial Preview
 
 <html><div style='float:left'></div><hr color='#EB811B' size=1px style="width:1000px; margin:auto;"/></html>
 
@@ -232,23 +234,24 @@ brazil <- sf::read_sf("BRA_adm1.shp")
 brazil %>%
   dplyr::select(geometry) %>%
   knitr::kable(col.names = c("Geometry")) %>%
-  kableExtra::kable_minimal() %>%
-  head(10)
+  kableExtra::kable_minimal()
 ```
-
 ---
-##But if I don't have a geometry column?
+###But if I don't have a geometry column?
+.pull-left[
 - Longitude and Latitude
 
-```{r}
+```{r,  results='hide',  message=FALSE, warning=FALSE}
 coordinates_br <- readr::read_csv("br.csv")
 ```
 
-You will need to check the CRS code
-```{r}
+You will need to check the **CRS** (coordinate reference system) code
+```{r, results='hide',message=FALSE, warning=FALSE}
 sf::st_crs(brazil)
 ```
-
+In our case: "EPSG",4326
+]
+.pull-right[
 Then, conversion
 ```{r}
 coord_geo <- coordinates_br %>%
@@ -257,17 +260,19 @@ coord_geo <- coordinates_br %>%
 coord_geo %>%
   dplyr::select(geometry) %>%
   knitr::kable(col.names = c("Geometry")) %>%
-  kableExtra::kable_minimal() %>%
-  head(10)
+  kableExtra::kable_minimal()
 ```
+]
 ---
+#Next Steps
 .pull-left[
-#What about when I don't have longitude and latitude?
+What about when I don't have longitude and latitude?
+<br>
 `r emo::ji("globe")`**geocoding**
 <br>
 <br>
-#And what about spatial analysis?
-```{r}
+And what about spatial analysis?
+```{r, results='hide', message=FALSE, warning=FALSE}
 brplot <- ggplot2::ggplot() +
   geom_sf(data = brazil) +
   geom_sf(data = coord_geo %>%
@@ -278,16 +283,17 @@ brplot <- ggplot2::ggplot() +
 ```
 ]
 .pull-right[
-```{r}
+```{r, error=FALSE, message=FALSE, warning=FALSE}
 brplot
 ```
 ]
+---
 class: inverse, center, middle
 name: Sources
 
 # Learn More
 <br>
-### Sources
+Sources
 
 <html><div style='float:left'></div><hr color='#EB811B' size=1px style="width:1000px; margin:auto;"/></html>
 
