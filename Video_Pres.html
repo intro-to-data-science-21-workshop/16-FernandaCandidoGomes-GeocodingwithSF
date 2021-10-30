@@ -50,7 +50,7 @@ Geocoding, spatial analysis and SF
 &lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px style="width:1000px; margin:auto;"/&gt;&lt;/html&gt;
 
 ---
-#What is **geocoding**? 🌏 📍
+#What is **geocoding**? 🌏 📌
 &lt;br&gt;
 
 Process of *taking an address or a name of a place and turning it into a geographic position on the earth’s surface.*
@@ -65,7 +65,7 @@ Process of *taking an address or a name of a place and turning it into a geograp
 🔍 Coordinate System: Longitude and Latitude
 
 ---
-#Why do **spatial analysis**? 🗺
+#Why do **spatial analysis**? 🗾
 
 .pull-left[
 &lt;center&gt;
@@ -89,11 +89,14 @@ Process of *taking an address or a name of a place and turning it into a geograp
 &lt;img src="pptimages/Andrew_example2.png" height=140&gt;
 &lt;/div&gt;
 &lt;br&gt;
-In its best form, allows people to easily understand complex geographical information: *Adding more information conveys and increasingly rich and informative story*
+*Adding more information conveys and increasingly rich and informative story*
+&lt;br&gt;
+&lt;br&gt;
+✌️ In its best form, allows people to easily understand complex geographical information.✌️
 ]
 
 ---
-#The **SF** package 👩‍💻👨‍💻👨‍💻
+#The **SF** package 👩‍💻👩‍💻👨‍💻
 
 .pull-left[
 - Geographic information science has been performed in a geographic information system (“GIS”), which is an integrated software platform for the management, processing, analysis, and visualization of geographic data
@@ -101,20 +104,20 @@ In its best form, allows people to easily understand complex geographical inform
 - R packages exist for handling these tasks, allowing R to function as a capable substitute
 &lt;br&gt;
 &lt;div align="center"&gt;
-&lt;img src="pptimages/sf_package.jpg" height=300&gt;
+&lt;img src="pptimages/packages_growth.png" height=315&gt;
 &lt;/div&gt;
 ]
 
 .pull-right[
 &lt;br&gt;
 &lt;div align="center"&gt;
-&lt;img src="pptimages/packages_growth.png" height= 200&gt;
+&lt;img src="pptimages/sf_package.jpg" height= 200&gt; 
 &lt;/div&gt;
 - The next-generation alternative to sp for spatial data analysis in R &lt;br&gt;
 - Advantages: &lt;br&gt;
   * sf objects can be treated as data frames in most operations
   &lt;br&gt;
-  * sf function names are relatively consistent and intuitive
+  * sf function names are relatively consistent and intuitive ("st_")
   &lt;br&gt;
   * sf functions can be combined using %&gt;% operator
   * 👍 integrates seamlessly with **tidyverse tools** 👍
@@ -125,7 +128,7 @@ In its best form, allows people to easily understand complex geographical inform
 class: inverse, center, middle
 name: Logic
 
-# How can we use it??
+# How can we use it?
 &lt;br&gt;
 Geometry basics
 
@@ -137,7 +140,7 @@ Geometry basics
 &lt;br&gt;
 thing or a object, which have "a **geometry** describing where on Earth is located (*spatial attribute*), and other attributes, which describe other properties (non-spatial attributes)"
 &lt;br&gt;
-- Dimensions or coordinates: X and Y (longitude and latitude), Z (altitude) and M 
+- Coordinates: X and Y (longitude and latitude), Z (altitude) and M 
 (denotes some associated measure, such as time of measurement)
 &lt;br&gt;
 &lt;div align="center"&gt;
@@ -152,6 +155,7 @@ thing or a object, which have "a **geometry** describing where on Earth is locat
 &lt;img src="pptimages/table_geometry.png" height= 300&gt;
 &lt;/div&gt;
 ###Shape files
+&lt;br&gt;
 - The way as *geographic information* is normally shared
 - zip file with a **.shp**, which stores the geographic coordinates of the geographic features (e.g. country, state, county)
 ]
@@ -309,7 +313,7 @@ R&gt; brazil %&gt;%
 &lt;/tbody&gt;
 &lt;/table&gt;
 ---
-###But if I don't have a geometry column?
+###But if I don't geometry column, but already have geographic position?
 .pull-left[
 - Longitude and Latitude
 
@@ -318,7 +322,7 @@ R&gt; brazil %&gt;%
 R&gt; coordinates_br &lt;- readr::read_csv("br.csv")
 ```
 
-You will need to check the **CRS** (coordinate reference system) code
+You will need to check the **CRS** (Coordinate Reference System) code
 
 ```r
 R&gt; sf::st_crs(brazil)
@@ -681,9 +685,9 @@ R&gt; coord_geo %&gt;%
 ---
 #Next Steps
 .pull-left[
-What about when I don't have longitude and latitude?
+What about when I don't have Longitude and Latitude?
 &lt;br&gt;
-🌏**geocoding**
+🌏📌**geocoding**
 &lt;br&gt;
 &lt;br&gt;
 And what about spatial analysis?
@@ -692,10 +696,10 @@ And what about spatial analysis?
 R&gt; brplot &lt;- ggplot2::ggplot() +
 +   geom_sf(data = brazil) +
 +   geom_sf(data = coord_geo %&gt;%
-+             dplyr::filter(!is.na(capital)), color = "aquamarine") +
++             dplyr::filter(!is.na(capital)), color = "darkorchid4") +
 +    geom_sf_label(data = coord_geo %&gt;%
 +                 dplyr::filter(population_proper &gt;= 1500000 &amp; population_proper &lt;= 7000000),
-+                 aes(label = city),  size = 3, hjust = 0, color = "aquamarine4")
++                 aes(label = city),  size = 3, hjust = 0, color = "darkorchid3")
 ```
 ]
 .pull-right[

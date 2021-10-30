@@ -110,7 +110,10 @@ Process of *taking an address or a name of a place and turning it into a geograp
 <img src="pptimages/Andrew_example2.png" height=140>
 </div>
 <br>
-In its best form, allows people to easily understand complex geographical information: *Adding more information conveys and increasingly rich and informative story*
+*Adding more information conveys and increasingly rich and informative story*
+<br>
+<br>
+`r emo::ji("v")` In its best form, allows people to easily understand complex geographical information.`r emo::ji("v")`
 ]
 
 ---
@@ -122,23 +125,23 @@ In its best form, allows people to easily understand complex geographical inform
 - R packages exist for handling these tasks, allowing R to function as a capable substitute
 <br>
 <div align="center">
-<img src="pptimages/sf_package.jpg" height=300>
+<img src="pptimages/packages_growth.png" height=315>
 </div>
 ]
 
 .pull-right[
 <br>
 <div align="center">
-<img src="pptimages/packages_growth.png" height= 200>
+<img src="pptimages/sf_package.jpg" height= 200> 
 </div>
 - The next-generation alternative to sp for spatial data analysis in R <br>
 - Advantages: <br>
   * sf objects can be treated as data frames in most operations
   <br>
-  * sf function names are relatively consistent and intuitive
+  * sf function names are relatively consistent and intuitive ("st_")
   <br>
   * sf functions can be combined using %>% operator
-  * `r emo::ji("thumb")` integrates seamlessly with **tidyverse tools** `r emo::ji("thumb")`
+  * `r emo::ji("+1")` integrates seamlessly with **tidyverse tools** `r emo::ji("+1")`
 <br>
 ]
 
@@ -146,7 +149,7 @@ In its best form, allows people to easily understand complex geographical inform
 class: inverse, center, middle
 name: Logic
 
-# How can we use it??
+# How can we use it?
 <br>
 Geometry basics
 
@@ -158,7 +161,7 @@ Geometry basics
 <br>
 thing or a object, which have "a **geometry** describing where on Earth is located (*spatial attribute*), and other attributes, which describe other properties (non-spatial attributes)"
 <br>
-- Dimensions or coordinates: X and Y (longitude and latitude), Z (altitude) and M 
+- Coordinates: X and Y (longitude and latitude), Z (altitude) and M 
 (denotes some associated measure, such as time of measurement)
 <br>
 <div align="center">
@@ -173,6 +176,7 @@ thing or a object, which have "a **geometry** describing where on Earth is locat
 <img src="pptimages/table_geometry.png" height= 300>
 </div>
 ###Shape files
+<br>
 - The way as *geographic information* is normally shared
 - zip file with a **.shp**, which stores the geographic coordinates of the geographic features (e.g. country, state, county)
 ]
@@ -237,7 +241,7 @@ brazil %>%
   kableExtra::kable_minimal()
 ```
 ---
-###But if I don't have a geometry column?
+###But if I don't geometry column, but already have geographic position?
 .pull-left[
 - Longitude and Latitude
 
@@ -245,7 +249,7 @@ brazil %>%
 coordinates_br <- readr::read_csv("br.csv")
 ```
 
-You will need to check the **CRS** (coordinate reference system) code
+You will need to check the **CRS** (Coordinate Reference System) code
 ```{r, results='hide',message=FALSE, warning=FALSE}
 sf::st_crs(brazil)
 ```
@@ -266,9 +270,9 @@ coord_geo %>%
 ---
 #Next Steps
 .pull-left[
-What about when I don't have longitude and latitude?
+What about when I don't have Longitude and Latitude?
 <br>
-`r emo::ji("globe")`**geocoding**
+`r emo::ji("globe")``r emo::ji("location")`**geocoding**
 <br>
 <br>
 And what about spatial analysis?
@@ -276,10 +280,10 @@ And what about spatial analysis?
 brplot <- ggplot2::ggplot() +
   geom_sf(data = brazil) +
   geom_sf(data = coord_geo %>%
-            dplyr::filter(!is.na(capital)), color = "aquamarine") +
+            dplyr::filter(!is.na(capital)), color = "darkorchid4") +
    geom_sf_label(data = coord_geo %>%
                 dplyr::filter(population_proper >= 1500000 & population_proper <= 7000000),
-                aes(label = city),  size = 3, hjust = 0, color = "aquamarine4")
+                aes(label = city),  size = 3, hjust = 0, color = "darkorchid3")
 ```
 ]
 .pull-right[

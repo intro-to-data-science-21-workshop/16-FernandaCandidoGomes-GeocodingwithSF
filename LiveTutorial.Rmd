@@ -12,7 +12,7 @@ output:
     theme: lumen
     toc_depth: 2
     toc_float:
-      collapsed: false 
+      collapsed: false
 ---
 
 ```{r setup, include=FALSE}
@@ -27,7 +27,9 @@ options(scipen = 999)
 ## Mapping
 
 Let's make our first country map in R.
-As Fernanda said, in the video, we can download the shapefile (.shp) as a .zip file from the Internet
+As Fernanda said, in the video, we can download the shapefile (.shp) as a .zip file from the Internet. 
+We can then convert this .shp file into a dataframe that R can process.
+Then, we can plot the data, which will for a map!
 
 ```{r pressure, echo=FALSE}
 # Go to http://diva-gis.org/gdata and pick a country. 
@@ -53,6 +55,9 @@ ggplot(country) + geom_sf() + theme_minimal()
 ```
 
 ## Finding coordinates from addresses
+As Fernanda said, geocoding is about taking an address or a name of a place and turning it into a geographic position on the earth’s surface. This means that if run an address, a location, or landmark through the proper function in R, it will give us the coordinates, which can be mapped.
+
+For this tutorial, we are focusing on mapping institutions that handle refugee policy and offices that process asylum claims. Below are the addresses of some of these institutions:
 
 UNHCR Germany - Zimmerstrasse 80, Berlin, Germany
 UNHCR Germany/Federal Office for Migrantion and Refugees - Frankenstrasse 210, Nurnberg, Germany
@@ -63,10 +68,23 @@ Port of Antwerp Schengen Immigration Office - Kauwenstein 8, Antwerpen, Belgium
 CARE - Switzerland - Chemin de Balexert 7, Geneva, Switzerland
 CARE UK - 89 Albert Embankment, London, United Kingdom
 Danish Refugee Council - Borgergade 10, København, Denmark
+
+If we don't have the address, we can simply put the location, such as a city:
 European Asylum Support Office - Valletta, Malta
+Rome, Italy
+
+Or we can put a landmark, such as:
+La Tour Eiffel (Eiffel Tower)
+Kościół Mariacki (Mary's Basilica in Krakow)
+წმინდა სამება (Gergeti Trinity Church)
+
+We simply same all of these address/locations as a single vector. We then run this vector through the 
+geocode_OSM() function. This function does the magic of geo-locating all of the information in the vector.
+
+The output will be a data frame with the longitudes and latitudes of the locations. 
 
 ```{r pressure, echo=FALSE}
-addresses <- c("Zimmerstrasse 80, Berlin, Germany",
+locations <- c("Zimmerstrasse 80, Berlin, Germany",
                "Frankenstrasse 210, Nurnberg, Germany",
                "83 Rue de Patay, Paris, France",
                "4 Rue Gustave Doré, Strasbourg, France",
@@ -75,28 +93,37 @@ addresses <- c("Zimmerstrasse 80, Berlin, Germany",
                "Chemin de Balexert 7, Geneva, Switzerland",
                "89 Albert Embankment, London, United Kingdom",
                "Borgergade 10, København, Denmark",
-               "Valletta, Malta") 
+               "Valletta, Malta",
+               "Rome, Italy",
+               "La Tour Eiffel",
+               "Kościół Mariacki",
+               "წმინდა სამება") 
 
-geocoded_addresses <- geocode_OSM(addresses)
+geocoded_locations <- geocode_OSM(locations)
 
-geocoded_addresses
+geocoded_locations
 ```
 
 ## Setting up the geo-points
 
-Use the st_as_sf() function
+We then use the st_as_sf() function to set the coordinates of the longitude and latitude as the relative on the x and y axes. 
+This gives us the points with the critical "geometry" column. 
+It is also good to set the coordinated reference system (CRS) code within this function to 4326, which is standard for the World Geodetic System.
 
 ```{r pressure, echo=FALSE}
-point_geo <- st_as_sf(geocoded_addresses,
+point_geo <- st_as_sf(geocoded_locations,
                       coords = c(x = "lon", y = "lat"),
-                      crs = 4326)
+                      crs = 4326) 
+
 point_geo
 ```
 
 ## Downloading a map of the world
-diva-gis.org is great for individual countries, but does not have a files for more than one country. For this, let's go to Natural Earth (naturalearthdata.com). 
+diva-gis.org is great for individual countries, as we did with the country example above. 
 
-Click on the 1:50m Cultural Vectors. Right click on the "Download countries" button and copy the link. 
+But does not have diva-gis.org does not have easily accessible .shp files for more than one country. For this, let's go to Natural Earth (naturalearthdata.com). 
+
+Click on the 1:50m Cultural Vectors. Right click on the "Download countries" button and copy the link. We will then follow the same processes as in the country .shp file example above to get geographical information for thw whole world.
 
 ```{r pressure, echo=FALSE}
 
@@ -111,22 +138,29 @@ unzip("WORLD.zip")
 # Examine the file .zip file to find the shapefile
 list.files()
 
-# Save the shapefile as a dataframe
+# Save the shapefile as a data frame using the read_sf() function
 world <- sf::read_sf("ne_50m_admin_0_countries.shp") #Look for the .shp
 world
 ```
 
 
 ## Make a quick map of the world
+Just to inspect that the data we downloaded is correct/functions, let's plot it quickly. We can do this in a number of different ways, below at three alternative ways: two with ggplot() and one with qtm(), which comes in the tmap package and makes a "quick thematic map".
 
 ```{r pressure, echo=FALSE}
 ggplot(world) + geom_sf() + theme_minimal()
+
+ggplot() + geom_sf(data = world) + coord_sf(crs = st_crs(4326)) + theme_minimal()
+
+qtm(world)
 ```
 
 
 ## Joining dataframes
 
-Use the st_join() function
+The world .shp file that we downloaded conveniently also has a "geometry" column, similar to that which we created using the st_as_sf function when creating the point_geo data frame.
+
+Now that we have the point_geo and world data and they both have the "geometry" column, we can join then using the st_join() function, which comes in the sf package. st_join allows us to make a left or inner join with spatial data.
 
 ```{r pressure, echo=FALSE}
 st_join(point_geo, world, join = st_within)
@@ -134,16 +168,18 @@ st_join(point_geo, world, join = st_within)
 
 ## Map it all together!
 
+Using the tm_shape() function, from the tmap package, we can map the world and layer on the geo-located points of interest.
 
 ```{r pressure, echo=FALSE}
 tm_shape(world) +
   tm_fill() +
   tm_shape (point_geo) +
-  tm_bubbles(col = "red", size = 0.01)
+  tm_bubbles(col = "red", size = 0.01) # Set the color and size of the geo-located points
 ```
 
 ## Making a better map
-
+Also from the tmap package, the tmap_mode() function allows us to set the map on real geographical information, 
+such as topography.
 
 ```{r pressure, echo=FALSE}
 tmap_mode("view")
@@ -153,14 +189,13 @@ tmap_last()
 
 ## Calculate the distance
 
-Use the st_distance() function to find the distances between points.
+Then, we can use the st_distance() function from the sf package to find the distances between points.
 
 ```{r pressure, echo=FALSE}
 dist <- st_distance(point_geo)
 dist_km <- dist/1000
 dist_km
 ```
-
 
 ## Save the map
 
@@ -180,28 +215,97 @@ Let's plot the points on a map of Europe.
 But also overlaying this with spatial information on the uptake of asylum seekers per country in 2015.
 
 ```{r pressure, echo=FALSE}
-euro_ref <- read_excel("~/Downloads/euro_ref.xlsx")
+euro_ref <- read_excel("euro_ref.xlsx")
 
 euro_ref <- euro_ref %>% 
   dplyr::mutate(SOVEREIGNT_2 = state) %>%
-  dplyr::select(4, 1, 2, 3)
+  dplyr::select(3, 1, 2)
 
 world_2 <- world %>%
   dplyr::mutate(SOVEREIGNT_2 = SOVEREIGNT)
 
 combined_ref <- left_join(x = world_2, 
                                y = euro_ref, 
-                               by = "SOVEREIGNT")
+                               by = "SOVEREIGNT_2")
 
 euro_ref_map <- combined_ref %>%
   filter(!is.na(combined_ref$state))
   
 tm_shape(euro_ref_map)+
-  tm_polygons("num_ref", id = "state", palette = "Greens") +
+  tm_polygons("num_ref", id = "state", palette = "Blues", breaks = c(0, 20000, 100000,  500000, 1000000, 1500000)) +
     tm_shape (point_geo) +
   tm_bubbles(col = "red", size = 0.001)
 
 # Make sure to save !
 european_ref <-  tmap_last()
 tmap_save(european_ref, "european_ref.html")
+```
+
+## So let's make a map!
+
+Some landmarks based on where students from the I2DS class are from:
+India: ताजमहल (Taj Mahal)
+Brazil: Cristo Redentor (Christ the Redeemer)
+US: Empire State Building
+UK: Big Ben
+Italy: Colosseo (Colosseum)
+Peru: Qurikancha (Golden Temple)
+Panama: Vía Cincuentenario, Panamá, Panama (Old Cathedral at Panamá Viejo)
+Mexico: Monumento a la Independencia (Independence Monument)
+Netherlands: Schokland
+Colombia: El Peñón de Guatapé (Rock of Guatape)
+Bosnia: ??
+Germany: ??
+Spain: ??
+
+```{r pressure, echo=FALSE}
+I2DS_students <- c("Friedrichstrasse 180, Berlin, Germany",
+                   "ताजमहल",
+               "Cristo Redentor",
+               "Empire State Building",
+               "Big Ben",
+               "Colosseo",
+               "Qurikancha",
+               "Vía Cincuentenario, Panamá, Panama",
+               "Monumento a la Independencia",
+               "Schokland",
+               "El Peñón de Guatapé") 
+
+geocoded_I2DS <- geocode_OSM(I2DS_students)
+
+geocoded_I2DS
+```
+
+
+## Setting up the geo-points
+
+```{r pressure, echo=FALSE}
+I2DS_points <- st_as_sf(geocoded_I2DS,
+                      coords = c(x = "lon", y = "lat"),
+                      crs = 4326) 
+
+I2DS_points
+```
+
+```{r pressure, echo=FALSE}
+tm_shape(world) +
+  tm_polygons("POP_EST", id = "SOVEREINT", breaks = c(0, 1000000, 10000000, 50000000, 100000000, 200000000, 500000000, 1000000000, 1500000000)) +
+  tm_fill() +
+  tm_shape (I2DS_points) +
+  tm_bubbles(col = "blue", size = 0.05) 
+
+tmap_mode("view")
+```
+
+
+```{r pressure, echo=FALSE}
+I2DS_dist <- st_distance(I2DS_points)
+I2DS_dist_km <- I2DS_dist/1000
+I2DS_dist_km
+```
+
+```{r pressure, echo=FALSE}
+I2DS_student_map <- tmap_last()
+
+tmap_save(I2DS_student_map, "I2DS_student_map.html")
 ```
