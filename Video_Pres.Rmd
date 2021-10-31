@@ -104,6 +104,7 @@ Process of *taking an address or a name of a place and turning it into a geograp
 <br>
 - security, such as crime trends
 <br>
+<br>
 <div align="center">
 <img src="pptimages/Andrew_example.png" height=140>
 <img src="pptimages/Andrew_example1.png" height=140>
@@ -130,19 +131,15 @@ Process of *taking an address or a name of a place and turning it into a geograp
 ]
 
 .pull-right[
-<br>
 <div align="center">
 <img src="pptimages/sf_package.jpg" height= 200> 
 </div>
 - The next-generation alternative to sp for spatial data analysis in R <br>
 - Advantages: <br>
   * sf objects can be treated as data frames in most operations
-  <br>
   * sf function names are relatively consistent and intuitive ("st_")
-  <br>
   * sf functions can be combined using %>% operator
   * `r emo::ji("+1")` integrates seamlessly with **tidyverse tools** `r emo::ji("+1")`
-<br>
 ]
 
 ---
@@ -156,9 +153,9 @@ Geometry basics
 <html><div style='float:left'></div><hr color='#EB811B' size=1px style="width:1000px; margin:auto;"/></html>
 
 ---
+#Basics
 .pull-left[
 ###Simple features
-<br>
 thing or a object, which have "a **geometry** describing where on Earth is located (*spatial attribute*), and other attributes, which describe other properties (non-spatial attributes)"
 <br>
 - Coordinates: X and Y (longitude and latitude), Z (altitude) and M 
@@ -232,7 +229,7 @@ brazil <- sf::read_sf("BRA_adm1.shp")
 ```
 ---
 
-###The Geometry column
+#The Geometry column
 
 ```{r}
 brazil %>%
@@ -241,9 +238,9 @@ brazil %>%
   kableExtra::kable_minimal()
 ```
 ---
-###But if I don't geometry column, but already have geographic position?
+#But if I don't geometry column?
 .pull-left[
-- Longitude and Latitude
+###Longitude and Latitude
 
 ```{r,  results='hide',  message=FALSE, warning=FALSE}
 coordinates_br <- readr::read_csv("br.csv")
@@ -253,10 +250,11 @@ You will need to check the **CRS** (Coordinate Reference System) code
 ```{r, results='hide',message=FALSE, warning=FALSE}
 sf::st_crs(brazil)
 ```
-In our case: "EPSG",4326
+In our case: **"EPSG", 4326**
 ]
+
 .pull-right[
-Then, conversion
+###Then, conversion
 ```{r}
 coord_geo <- coordinates_br %>%
   sf::st_as_sf(coords = c("lng", "lat"), crs = 4326)
@@ -295,10 +293,52 @@ brplot
 class: inverse, center, middle
 name: Sources
 
-# Learn More
-<br>
-Sources
+# Learn More!
 
 <html><div style='float:left'></div><hr color='#EB811B' size=1px style="width:1000px; margin:auto;"/></html>
 
 ---
+#Where go to learn more? `r emo::ji("nerd")``r emo::ji("book")`
+.pull-left[
+- [Geocoding](https://lost-stats.github.io/Geo-Spatial/geocoding.html)
+<br>
+<br>
+- [Geocoding with R](https://www.jessesadler.com/post/geocoding-with-r/)
+<br>
+<br>
+- [How to use the sf package in R](https://www.youtube.com/watch?v=2UZKm2Kc88U)
+<br>
+<br>
+- [GIS in R with sf](https://www.youtube.com/watch?v=qbrnzSRPyb0)
+<br>
+<br>
+- [Geocomputation with R](https://geocompr.robinlovelace.net/index.html)
+<br>
+<br>
+- [Simple Features for R](https://r-spatial.github.io/sf/articles/sf1.html)
+<br>
+<br>
+- [sf Package](https://cran.r-project.org/web/packages/sf/sf.pdf)
+]
+
+.pull-right[
+<br>
+<br>
+<div align="center">
+<img src="pptimages/book.jpg" height= 450>
+</div>
+]
+---
+#Hope to see you in our Live Tutorial! `r emo::ji("instructor")`
+
+<center> <b>
+ME TRYING TO
+</center> </b>
+<br>
+<div align="center">
+<img src="pptimages/meme.jpg" height= 400>
+</div>
+<br>
+<center> <b>
+FIND LONGITUDE AND LATITUDE
+</center> </b>

@@ -2,3 +2,16 @@
 .Rhistory
 .RData
 .Ruserdata
+BRA.zip
+BRA_adm0.cpg
+BRA_adm0.csv
+BRA_adm0.dbf
+*.dbf
+*.prj
+*.shp
+*.cpg
+*.shx
+BRA_adm1.csv
+BRA_adm2.csv
+BRA_adm3.csv
+BRA_adm3.csv

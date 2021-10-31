@@ -50,7 +50,7 @@ Geocoding, spatial analysis and SF
 &lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px style="width:1000px; margin:auto;"/&gt;&lt;/html&gt;
 
 ---
-#What is **geocoding**? 🌏 📌
+#What is **geocoding**? 🌏 📍
 &lt;br&gt;
 
 Process of *taking an address or a name of a place and turning it into a geographic position on the earth’s surface.*
@@ -62,10 +62,10 @@ Process of *taking an address or a name of a place and turning it into a geograp
 ✅ Input Data: Relative or Absolute
 &lt;br&gt;
 &lt;br&gt;
-🔍 Coordinate System: Longitude and Latitude
+🔎 Coordinate System: Longitude and Latitude
 
 ---
-#Why do **spatial analysis**? 🗾
+#Why do **spatial analysis**? 🗺
 
 .pull-left[
 &lt;center&gt;
@@ -83,6 +83,7 @@ Process of *taking an address or a name of a place and turning it into a geograp
 &lt;br&gt;
 - security, such as crime trends
 &lt;br&gt;
+&lt;br&gt;
 &lt;div align="center"&gt;
 &lt;img src="pptimages/Andrew_example.png" height=140&gt;
 &lt;img src="pptimages/Andrew_example1.png" height=140&gt;
@@ -96,7 +97,7 @@ Process of *taking an address or a name of a place and turning it into a geograp
 ]
 
 ---
-#The **SF** package 👩‍💻👩‍💻👨‍💻
+#The **SF** package 👨‍💻👨‍💻👨‍💻
 
 .pull-left[
 - Geographic information science has been performed in a geographic information system (“GIS”), which is an integrated software platform for the management, processing, analysis, and visualization of geographic data
@@ -109,19 +110,15 @@ Process of *taking an address or a name of a place and turning it into a geograp
 ]
 
 .pull-right[
-&lt;br&gt;
 &lt;div align="center"&gt;
 &lt;img src="pptimages/sf_package.jpg" height= 200&gt; 
 &lt;/div&gt;
 - The next-generation alternative to sp for spatial data analysis in R &lt;br&gt;
 - Advantages: &lt;br&gt;
   * sf objects can be treated as data frames in most operations
-  &lt;br&gt;
   * sf function names are relatively consistent and intuitive ("st_")
-  &lt;br&gt;
   * sf functions can be combined using %&gt;% operator
   * 👍 integrates seamlessly with **tidyverse tools** 👍
-&lt;br&gt;
 ]
 
 ---
@@ -135,9 +132,9 @@ Geometry basics
 &lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px style="width:1000px; margin:auto;"/&gt;&lt;/html&gt;
 
 ---
+#Basics
 .pull-left[
 ###Simple features
-&lt;br&gt;
 thing or a object, which have "a **geometry** describing where on Earth is located (*spatial attribute*), and other attributes, which describe other properties (non-spatial attributes)"
 &lt;br&gt;
 - Coordinates: X and Y (longitude and latitude), Z (altitude) and M 
@@ -212,7 +209,7 @@ R&gt; brazil &lt;- sf::read_sf("BRA_adm1.shp")
 ```
 ---
 
-###The Geometry column
+#The Geometry column
 
 
 ```r
@@ -313,9 +310,9 @@ R&gt; brazil %&gt;%
 &lt;/tbody&gt;
 &lt;/table&gt;
 ---
-###But if I don't geometry column, but already have geographic position?
+#But if I don't geometry column?
 .pull-left[
-- Longitude and Latitude
+###Longitude and Latitude
 
 
 ```r
@@ -327,10 +324,11 @@ You will need to check the **CRS** (Coordinate Reference System) code
 ```r
 R&gt; sf::st_crs(brazil)
 ```
-In our case: "EPSG",4326
+In our case: **"EPSG", 4326**
 ]
+
 .pull-right[
-Then, conversion
+###Then, conversion
 
 ```r
 R&gt; coord_geo &lt;- coordinates_br %&gt;%
@@ -687,7 +685,7 @@ R&gt; coord_geo %&gt;%
 .pull-left[
 What about when I don't have Longitude and Latitude?
 &lt;br&gt;
-🌏📌**geocoding**
+🌎📌**geocoding**
 &lt;br&gt;
 &lt;br&gt;
 And what about spatial analysis?
@@ -714,13 +712,55 @@ R&gt; brplot
 class: inverse, center, middle
 name: Sources
 
-# Learn More
-&lt;br&gt;
-Sources
+# Learn More!
 
 &lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px style="width:1000px; margin:auto;"/&gt;&lt;/html&gt;
 
 ---
+#Where go to learn more? 🤓📖
+.pull-left[
+- [Geocoding](https://lost-stats.github.io/Geo-Spatial/geocoding.html)
+&lt;br&gt;
+&lt;br&gt;
+- [Geocoding with R](https://www.jessesadler.com/post/geocoding-with-r/)
+&lt;br&gt;
+&lt;br&gt;
+- [How to use the sf package in R](https://www.youtube.com/watch?v=2UZKm2Kc88U)
+&lt;br&gt;
+&lt;br&gt;
+- [GIS in R with sf](https://www.youtube.com/watch?v=qbrnzSRPyb0)
+&lt;br&gt;
+&lt;br&gt;
+- [Geocomputation with R](https://geocompr.robinlovelace.net/index.html)
+&lt;br&gt;
+&lt;br&gt;
+- [Simple Features for R](https://r-spatial.github.io/sf/articles/sf1.html)
+&lt;br&gt;
+&lt;br&gt;
+- [sf Package](https://cran.r-project.org/web/packages/sf/sf.pdf)
+]
+
+.pull-right[
+&lt;br&gt;
+&lt;br&gt;
+&lt;div align="center"&gt;
+&lt;img src="pptimages/book.jpg" height= 450&gt;
+&lt;/div&gt;
+]
+---
+#Hope to see you in our Live Tutorial! 👩‍🏫
+
+&lt;center&gt; &lt;b&gt;
+ME TRYING TO
+&lt;/center&gt; &lt;/b&gt;
+&lt;br&gt;
+&lt;div align="center"&gt;
+&lt;img src="pptimages/meme.jpg" height= 400&gt;
+&lt;/div&gt;
+&lt;br&gt;
+&lt;center&gt; &lt;b&gt;
+FIND LONGITUDE AND LATITUDE
+&lt;/center&gt; &lt;/b&gt;
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
