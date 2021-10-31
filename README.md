@@ -18,7 +18,13 @@ This session will introduce you to geocoding and spatial analysis, focusing in h
 
 
 ## Further resources
+- [Geocoding](https://lost-stats.github.io/Geo-Spatial/geocoding.html)
+- [Geocoding with R](https://www.jessesadler.com/post/geocoding-with-r/)
+- [How to use the sf package in R](https://www.youtube.com/watch?v=2UZKm2Kc88U)
+- [GIS in R with sf](https://www.youtube.com/watch?v=qbrnzSRPyb0)
 - [Geocomputation with R](https://geocompr.robinlovelace.net/index.html)
+- [Simple Features for R](https://r-spatial.github.io/sf/articles/sf1.html)
+- [sf Package](https://cran.r-project.org/web/packages/sf/sf.pdf)
 - [Applied Spatial Data Analysis with R](https://www.springer.com/gp/book/9781461476177)
 
 ## License
