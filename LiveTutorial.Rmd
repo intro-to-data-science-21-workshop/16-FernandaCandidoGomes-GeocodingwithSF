@@ -115,7 +115,7 @@ world
 
 
 ## Make a quick map of the world
-Just to inspect that the data we downloaded is correct/functions, let's plot it quickly. We can do this in a number of different ways, below at three alternative ways: two with ggplot() and one with qtm(), which comes in the tmap package and makes a "quick thematic map".
+Just to inspect that the data we downloaded is correct/functional, let's plot it quickly. We can do this in a number of different ways, below at three alternative ways: two with ggplot() and one with qtm(), which comes in the tmap package and makes a "quick thematic map".
 
 ```{r pressure, echo=FALSE}
 ggplot(world) + geom_sf() + theme_minimal()
@@ -124,7 +124,7 @@ ggplot(world) + geom_sf() + theme_minimal()
 ggplot() + geom_sf(data = world) + coord_sf(crs = st_crs(4326)) + theme_minimal()
 
 #Or
-qtm(world) #qtm() function "Quick TMap" from the tmap package allows us to quickly examine a map from the imported shapefile
+qtm(world) #qtm() function "Quick Thematic Map" from the tmap package allows us to quickly examine a map from the imported shapefile
 ```
 
 
