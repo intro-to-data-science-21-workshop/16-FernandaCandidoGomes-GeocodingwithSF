@@ -50,7 +50,7 @@ Geocoding, spatial analysis and SF
 &lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px style="width:1000px; margin:auto;"/&gt;&lt;/html&gt;
 
 ---
-#What is **geocoding**? 🌏 📍
+#What is **geocoding**? 🌎 📍
 &lt;br&gt;
 
 Process of *taking an address or a name of a place and turning it into a geographic position on the earth’s surface.*
@@ -62,7 +62,7 @@ Process of *taking an address or a name of a place and turning it into a geograp
 ✅ Input Data: Relative or Absolute
 &lt;br&gt;
 &lt;br&gt;
-🔎 Coordinate System: Longitude and Latitude
+🔍 Coordinate System: Longitude and Latitude
 
 ---
 #Why do **spatial analysis**? 🗺
@@ -97,7 +97,7 @@ Process of *taking an address or a name of a place and turning it into a geograp
 ]
 
 ---
-#The **SF** package 👨‍💻👨‍💻👨‍💻
+#The **SF** package 👨‍💻👩‍💻👩‍💻
 
 .pull-left[
 - Geographic information science has been performed in a geographic information system (“GIS”), which is an integrated software platform for the management, processing, analysis, and visualization of geographic data
@@ -168,16 +168,14 @@ Tools
 &lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px style="width:1000px; margin:auto;"/&gt;&lt;/html&gt;
 
 ---
-#*SF*: reading, writing, handling, and manipulating simple features in R
-
+#*SF*: reading, writing, handling and manipulating
 | st_read  |  st_as_sf |
 |---|---|
 | imports a spatial data file and converts &lt;br&gt; it to a simple feature *data frame* | *convert* foreign object to an sf object|
-|
-&lt;br&gt;
 &lt;div align="center"&gt;
 &lt;img src="pptimages/sf_functions.png" height= 300&gt;
 &lt;/div&gt;
+&lt;center&gt; &lt;em&gt; read_sf is an alias for st_read, with some modified default arguments &lt;/center&gt; &lt;/em&gt;
 
 ---
 class: inverse, center, middle
@@ -205,7 +203,7 @@ R&gt; # Unzip the file
 R&gt; unzip("BRA.zip")
 R&gt;  
 R&gt; # Examine the file .zip file (list()) to find the shapefile and then save the shapefile as a dataframe
-R&gt; brazil &lt;- sf::read_sf("BRA_adm1.shp")
+R&gt; brazil &lt;- sf::st_read("BRA_adm1.shp")
 ```
 ---
 
@@ -310,7 +308,7 @@ R&gt; brazil %&gt;%
 &lt;/tbody&gt;
 &lt;/table&gt;
 ---
-#But if I don't geometry column?
+#But if I don't have the geometry column?
 .pull-left[
 ###Longitude and Latitude
 
@@ -685,7 +683,7 @@ R&gt; coord_geo %&gt;%
 .pull-left[
 What about when I don't have Longitude and Latitude?
 &lt;br&gt;
-🌎📌**geocoding**
+🌏📍**geocoding**
 &lt;br&gt;
 &lt;br&gt;
 And what about spatial analysis?
@@ -748,7 +746,7 @@ name: Sources
 &lt;/div&gt;
 ]
 ---
-#Hope to see you in our Live Tutorial! 👩‍🏫
+#Hope to see you in our Live Tutorial! 👨‍🏫
 
 &lt;center&gt; &lt;b&gt;
 ME TRYING TO

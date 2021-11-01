@@ -189,16 +189,14 @@ Tools
 <html><div style='float:left'></div><hr color='#EB811B' size=1px style="width:1000px; margin:auto;"/></html>
 
 ---
-#*SF*: reading, writing, handling, and manipulating simple features in R
-
+#*SF*: reading, writing, handling and manipulating
 | st_read  |  st_as_sf |
 |---|---|
 | imports a spatial data file and converts <br> it to a simple feature *data frame* | *convert* foreign object to an sf object|
-|
-<br>
 <div align="center">
 <img src="pptimages/sf_functions.png" height= 300>
 </div>
+<center> <em> read_sf is an alias for st_read, with some modified default arguments </center> </em>
 
 ---
 class: inverse, center, middle
@@ -214,7 +212,7 @@ Tutorial Preview
 #How to?
 
 ### Downloading and Visualizing geometric data
-```{r}
+```{r, results='hide',  message=FALSE, warning=FALSE}
 # Save file as a .zip with link
 brazil_file <- "https://biogeo.ucdavis.edu/data/diva/adm/BRA_adm.zip"
  
@@ -225,7 +223,7 @@ download.file(brazil_file, destfile = "BRA.zip")
 unzip("BRA.zip")
  
 # Examine the file .zip file (list()) to find the shapefile and then save the shapefile as a dataframe
-brazil <- sf::read_sf("BRA_adm1.shp")
+brazil <- sf::st_read("BRA_adm1.shp")
 ```
 ---
 
@@ -238,7 +236,7 @@ brazil %>%
   kableExtra::kable_minimal()
 ```
 ---
-#But if I don't geometry column?
+#But if I don't have the geometry column?
 .pull-left[
 ###Longitude and Latitude
 
