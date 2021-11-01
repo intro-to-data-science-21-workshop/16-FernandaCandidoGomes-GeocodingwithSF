@@ -48,7 +48,7 @@ La Tour Eiffel (Eiffel Tower)
 Kościół Mariacki (Mary's Basilica in Krakow)
 წმინდა სამება (Gergeti Trinity Church)
 
-We simply same all of these address/locations as a single vector. We then run this vector through the 
+We simply same all of these address/locations as a single vector. We then run this vector through the
 geocode_OSM() function. This function does the magic of geo-locating all of the information in the vector.
 
 The output will be a data frame with the longitudes and latitudes of the locations. 
@@ -89,9 +89,7 @@ point_geo
 ```
 
 ## Downloading a map of the world
-diva-gis.org is great for individual countries, as we did with the country example above. 
-
-But does not have diva-gis.org does not have easily accessible .shp files for more than one country. For this, let's go to Natural Earth (naturalearthdata.com). 
+diva-gis.org is great for individual countries. But does not have easily accessible .shp files for more than one country. For this, let's go to Natural Earth (naturalearthdata.com). 
 
 Click on the 1:50m Cultural Vectors. Right click on the "Download countries" button and copy the link. We will then follow the same processes as in the country .shp file example above to get geographical information for thw whole world.
 
@@ -305,7 +303,7 @@ geocoded_your_location
 
 Now use the st_as_sf() function to create the geo-points
 ```{r pressure, echo=FALSE}
-your_points <- st_as_sf(), crs = 4326) 
+your_points <- st_as_sf(coords = c(x = "", y = "")), crs = 4326) 
 
 your_points
 ```
@@ -360,11 +358,3 @@ tm_shape(euro_ref_map)+
 european_ref <-  tmap_last()
 tmap_save(european_ref, "european_ref.html")
 ```
-
-
-
-
-
-
-
-
