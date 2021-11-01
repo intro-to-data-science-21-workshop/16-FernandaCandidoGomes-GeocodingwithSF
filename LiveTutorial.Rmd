@@ -254,8 +254,8 @@ Panama: Vía Cincuentenario, Panamá, Panama (Old Cathedral at Panamá Viejo)
 Mexico: Monumento a la Independencia (Independence Monument)
 Netherlands: Erasmusbrug (Erasmus Bridge, Rotterdam)
 Colombia: El Peñón de Guatapé (Rock of Guatape)
+Germany: Fernsehturm, Berlin (TV Tower)
 Bosnia: ??
-Germany: ??
 Spain: ??
 
 ```{r pressure, echo=FALSE}
@@ -268,8 +268,9 @@ I2DS_students <- c("Friedrichstrasse 180, Berlin, Germany",
                "Qurikancha",
                "Vía Cincuentenario, Panamá, Panama",
                "Monumento a la Independencia",
-               "Schokland",
-               "El Peñón de Guatapé") 
+               "Erasmusbrug",
+               "El Peñón de Guatapé",
+               "Fernsehturm, Berlin") 
 
 geocoded_I2DS <- geocode_OSM(I2DS_students)
 
