@@ -24,38 +24,8 @@ pacman::p_load(sf, leaflets, readxl,
 options(scipen = 999)
 ```
 
-## Mapping
-
-Let's make our first country map in R.
-As Fernanda said, in the video, we can download the shapefile (.shp) as a .zip file from the Internet. 
-We can then convert this .shp file into a dataframe that R can process.
-Then, we can plot the data, which will for a map!
-
-```{r pressure, echo=FALSE}
-# Go to http://diva-gis.org/gdata and pick a country. 
-
-country_file <- " " #Once you've picked a country, click "OK" then right click on the "Download button to "Copy Link", paste the hyperlink in the parentheses. 
-
-# Download .zip
-download.file(country_file, destfile = "COUNTRY.zip")
-
-# Unzip the file
-unzip("COUNTRY.zip")
-
-# Examine the file .zip file to find the shapefile
-list.files()
-
-# Save the shapefile as a dataframe
-country <- sf::read_sf(" ") #Find the .shp file (look for ~adm1.shp for Diva GIS files) and use the read_sf() function to convert the spacial data into a dataframe. 
-
-country
-
-# Plot the map with population using ggplot
-ggplot(country) + geom_sf() + theme_minimal()
-```
-
 ## Finding coordinates from addresses
-As Fernanda said, geocoding is about taking an address or a name of a place and turning it into a geographic position on the earth’s surface. This means that if run an address, a location, or landmark through the proper function in R, it will give us the coordinates, which can be mapped.
+As Fernanda said, geocoding is about taking an address or a name of a place and turning it into a geographic position on the earth’s surface. This means that if you run an address, a location, or landmark through the proper function in R, it will give us the coordinates, which can be mapped.
 
 For this tutorial, we are focusing on mapping institutions that handle refugee policy and offices that process asylum claims. Below are the addresses of some of these institutions:
 
@@ -99,7 +69,7 @@ locations <- c("Zimmerstrasse 80, Berlin, Germany",
                "Kościół Mariacki",
                "წმინდა სამება") 
 
-geocoded_locations <- geocode_OSM(locations)
+geocoded_locations <- geocode_OSM(locations) #geocode_OSM() from tmap package
 
 geocoded_locations
 ```
@@ -127,7 +97,7 @@ Click on the 1:50m Cultural Vectors. Right click on the "Download countries" but
 
 ```{r pressure, echo=FALSE}
 
-world_file <- "https://www.naturalearthdata.com/http//www.naturalearthdata.com/download/50m/cultural/ne_50m_admin_0_countries.zip" 
+world_file <- "" 
 
 # Download .zip
 download.file(world_file, destfile = "WORLD.zip")
@@ -139,7 +109,7 @@ unzip("WORLD.zip")
 list.files()
 
 # Save the shapefile as a data frame using the read_sf() function
-world <- sf::read_sf("ne_50m_admin_0_countries.shp") #Look for the .shp
+world <- sf::read_sf("") #Look for the .shp
 world
 ```
 
@@ -150,9 +120,11 @@ Just to inspect that the data we downloaded is correct/functions, let's plot it 
 ```{r pressure, echo=FALSE}
 ggplot(world) + geom_sf() + theme_minimal()
 
+#Or
 ggplot() + geom_sf(data = world) + coord_sf(crs = st_crs(4326)) + theme_minimal()
 
-qtm(world)
+#Or
+qtm(world) #qtm() function "Quick TMap" from the tmap package allows us to quickly examine a map from the imported shapefile
 ```
 
 
@@ -208,39 +180,6 @@ immigration_services <-  tmap_last()
 
 tmap_save(immigration_services, "immigration_services.html")
 ```
-
-## Bonus !!
-
-Let's plot the points on a map of Europe. 
-But also overlaying this with spatial information on the uptake of asylum seekers per country in 2015.
-
-```{r pressure, echo=FALSE}
-euro_ref <- read_excel("euro_ref.xlsx")
-
-euro_ref <- euro_ref %>% 
-  dplyr::mutate(SOVEREIGNT_2 = state) %>%
-  dplyr::select(3, 1, 2)
-
-world_2 <- world %>%
-  dplyr::mutate(SOVEREIGNT_2 = SOVEREIGNT)
-
-combined_ref <- left_join(x = world_2, 
-                               y = euro_ref, 
-                               by = "SOVEREIGNT_2")
-
-euro_ref_map <- combined_ref %>%
-  filter(!is.na(combined_ref$state))
-  
-tm_shape(euro_ref_map)+
-  tm_polygons("num_ref", id = "state", palette = "Blues", breaks = c(0, 20000, 100000,  500000, 1000000, 1500000)) +
-    tm_shape (point_geo) +
-  tm_bubbles(col = "red", size = 0.001)
-
-# Make sure to save !
-european_ref <-  tmap_last()
-tmap_save(european_ref, "european_ref.html")
-```
-
 ## So let's make a map!
 
 Some landmarks based on where students from the I2DS class are from:
@@ -270,7 +209,9 @@ I2DS_students <- c("Friedrichstrasse 180, Berlin, Germany",
                "Monumento a la Independencia",
                "Erasmusbrug",
                "El Peñón de Guatapé",
-               "Fernsehturm, Berlin") 
+               "Fernsehturm, Berlin",
+               "Rock Creek Park, Washington, DC",
+               "Parque do Ibirapuera, São Paulo") 
 
 geocoded_I2DS <- geocode_OSM(I2DS_students)
 
@@ -288,6 +229,8 @@ I2DS_points <- st_as_sf(geocoded_I2DS,
 I2DS_points
 ```
 
+Within the world data frame, there is a column (POP_EST) that is the population estimates for each country. I can therefore use this data to add population data to the map using the tm_polygons() function.
+
 ```{r pressure, echo=FALSE}
 tm_shape(world) +
   tm_polygons("POP_EST", id = "SOVEREINT", breaks = c(0, 1000000, 10000000, 50000000, 100000000, 200000000, 500000000, 1000000000, 1500000000)) +
@@ -298,6 +241,7 @@ tm_shape(world) +
 tmap_mode("view")
 ```
 
+So, who is coming from the furtherest distance from Hertie??
 
 ```{r pressure, echo=FALSE}
 I2DS_dist <- st_distance(I2DS_points)
@@ -310,3 +254,117 @@ I2DS_student_map <- tmap_last()
 
 tmap_save(I2DS_student_map, "I2DS_student_map.html")
 ```
+
+## FUN EXERCISES!! (WARNING: Learning to geocode and map in R will completely consume your life)
+
+## Mapping
+
+Make a country map in R.
+You can download the shapefile (.shp) as a .zip file from the Internet. 
+You can then convert this .shp file into a data frame that R can process.
+Then, you can plot the data, which will for a map!
+
+```{r pressure, echo=FALSE}
+# Go to http://diva-gis.org/gdata and pick a country. 
+
+country_file <- "" #Once you've picked a country, click "OK" then right click on the "Download button to "Copy Link", paste the hyperlink in the quotation marks. 
+
+# Download .zip
+download.file(country_file, destfile = "COUNTRY.zip")
+
+# Unzip the file
+unzip("COUNTRY.zip")
+
+# Examine the file .zip file to find the shapefile
+list.files()
+
+# Save the shapefile as a dataframe
+country <- sf::read_sf("") #Within the working directory, find the .shp file (look for ~adm1.shp for Diva GIS files) and use the read_sf() function to convert the spacial data into a dataframe. 
+
+country
+
+# Plot the map with population using ggplot
+ggplot(country) + geom_sf() + theme_minimal()
+
+#Or
+qtm(country)
+
+```
+
+## Geocode
+
+Think of addresses or landmarks in that country, which you would like to plot on the map
+
+```{r pressure, echo=FALSE}
+your_location <- c("") #Put the address or landmark in the quotations (remember to separate them with commas)
+
+geocoded_your_location <- geocode_OSM(your_location) #geocode_OSM() from tmap package
+
+geocoded_your_location
+```
+
+Now use the st_as_sf() function to create the geo-points
+```{r pressure, echo=FALSE}
+your_points <- st_as_sf(), crs = 4326) 
+
+your_points
+```
+
+Use the tm_shape() function to plot your selected country along with the point(s)
+```{r pressure, echo=FALSE}
+tm_shape(country) +
+  tm_shape (your_points) +
+  tm_bubbles(col = "blue", size = 0.05) 
+```
+
+Using the st_distance() function, calculate the distance between those points
+```{r pressure, echo=FALSE}
+
+```
+
+## Bonus !!
+
+Below is an example of how we can use data from the internet to make informative maps with geolocated points.
+Let's plot the points discussed above on a map of Europe. 
+But also overlaying this with spatial information on the uptake of asylum seekers per country in 2015.
+
+```{r pressure, echo=FALSE}
+#Import tha small data frame, which is taken from a table in Wikipedia (https://en.wikipedia.org/wiki/European_migrant_crisis) on asylum claims processed in different European countries
+euro_ref <- read_excel("euro_ref.xlsx")
+
+#Create a new column, which will allow us to join this data with the world data frame
+euro_ref <- euro_ref %>% 
+  dplyr::mutate(SOVEREIGNT_2 = state) %>%
+  dplyr::select(3, 1, 2)
+
+#Create a new column in the world data frame, which will allow us to join it with the euro_ref df
+world_2 <- world %>%
+  dplyr::mutate(SOVEREIGNT_2 = SOVEREIGNT)
+
+#Join the data frames using the left_join() function and the new column created in each df
+combined_ref <- left_join(x = world_2, 
+                               y = euro_ref, 
+                               by = "SOVEREIGNT_2")
+
+#Filter so we only get a map of Europe
+euro_ref_map <- combined_ref %>%
+  filter(!is.na(combined_ref$state))
+
+#Place the map and the points
+tm_shape(euro_ref_map)+
+  tm_polygons("num_ref", id = "state", palette = "Blues", breaks = c(0, 20000, 100000,  500000, 1000000, 1500000)) +
+    tm_shape (point_geo) +
+  tm_bubbles(col = "red", size = 0.001)
+
+#Make sure to save !
+european_ref <-  tmap_last()
+tmap_save(european_ref, "european_ref.html")
+```
+
+
+
+
+
+
+
+
