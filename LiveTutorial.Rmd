@@ -76,8 +76,8 @@ geocoded_locations
 
 ## Setting up the geo-points
 
-We then use the st_as_sf() function to set the coordinates of the longitude and latitude as the relative on the x and y axes. 
-This gives us the points with the critical "geometry" column. 
+We then use the st_as_sf() function to set the coordinates of the longitude and latitude as relative points on the x and y axes. 
+This gives us the points with the critical "geometry" column, which can be used to plot the points on a map, which has a shapefile. 
 It is also good to set the coordinated reference system (CRS) code within this function to 4326, which is standard for the World Geodetic System.
 
 ```{r pressure, echo=FALSE}
@@ -229,7 +229,7 @@ I2DS_points <- st_as_sf(geocoded_I2DS,
 I2DS_points
 ```
 
-Within the world data frame, there is a column (POP_EST) that is the population estimates for each country. I can therefore use this data to add population data to the map using the tm_polygons() function.
+Within the world data frame, there is a column (POP_EST) that is the population estimates for each country. I can therefore use this to add population data to the map using the tm_polygons() function.
 
 ```{r pressure, echo=FALSE}
 tm_shape(world) +
