@@ -178,6 +178,7 @@ immigration_services <-  tmap_last()
 
 tmap_save(immigration_services, "immigration_services.html")
 ```
+
 ## So let's make a map!
 
 Some landmarks based on where students from the I2DS class are from:
@@ -303,7 +304,7 @@ geocoded_your_location
 
 Now use the st_as_sf() function to create the geo-points
 ```{r pressure, echo=FALSE}
-your_points <- st_as_sf(coords = c(x = "", y = "")), crs = 4326) 
+your_points <- st_as_sf(coords = c(x = "", y = ""), crs = 4326) 
 
 your_points
 ```
